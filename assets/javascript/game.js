@@ -1,40 +1,42 @@
 
 var aragorn = {
     name: "Aragorn",
-    health: 80,
+    health: 150,
     attack: 8,
-    counter: 16,
+    counter: 20,
     gifPic: '<img class="card-img-top img-fluid" src="./assets/images/aragorn.gif">',
 
-    charCard: '<button class="card" id="character1"><img class="card-img-top img-fluid" src="./assets/images/aragorn.gif"><div class="card-body"><h5 class="card-title">Aragorn</h5><p class="card-text">80</p></div></button>',
+    charCard: '<button class="card" id="character1"><img class="card-img-top img-fluid" src="./assets/images/aragorn.gif"><div class="card-body"><h5 class="card-title">Aragorn</h5><p class="card-text">150</p></div></button>',
 };
 var eowyn = {
     name: "Eowyn",
-    health: 75,
+    health: 120,
     attack: 8,
-    counter: 12,
+    counter: 15,
     gifPic: '<img class="card-img-top img-fluid" src="./assets/images/eowyn2.gif">',
 
-    charCard: '<button class="card" id="character2"><img class="card-img-top img-fluid" src="./assets/images/eowyn2.gif"><div class="card-body"><h5 class="card-title">Eowyn</h5><p class="card-text">80</p></div></button>',
+    charCard: '<button class="card" id="character2"><img class="card-img-top img-fluid" src="./assets/images/eowyn2.gif"><div class="card-body"><h5 class="card-title">Eowyn</h5><p class="card-text">120</p></div></button>',
 };
 var goblin = {
     name: "Moria Goblin",
-    health: 40,
-    attack: 4,
-    counter: 8,
+    health: 100,
+    attack: 14,
+    counter: 5,
     gifPic: '<img class="card-img-top img-fluid" src="./assets/images/MoriaGoblin.gif">',
 
-    charCard: '<button class="card" id="character3"><img class="card-img-top img-fluid" src="./assets/images/MoriaGoblin.gif"><div class="card-body"><h5 class="card-title">Moria Goblin</h5><p class="card-text">60</p></div></button>',
+    charCard: '<button class="card" id="character3"><img class="card-img-top img-fluid" src="./assets/images/MoriaGoblin.gif"><div class="card-body"><h5 class="card-title">Moria Goblin</h5><p class="card-text">100</p></div></button>',
 };
 var witchking = {
     name: "Witchking of Angmar",
-    health: 100,
-    attack: 10,
-    counter: 20,
+    health: 180,
+    attack: 7,
+    counter: 25,
     gifPic: '<img class="card-img-top img-fluid" src="./assets/images/witchking.gif">', 
     
-    charCard: '<button class="card" id="character4"><img class="card-img-top img-fluid" src="./assets/images/witchking.gif"><div class="card-body"><h6 class="card-title">Witchking of Angmar</h6><p class="card-text">100</p></div></button>',
+    charCard: '<button class="card" id="character4"><img class="card-img-top img-fluid" src="./assets/images/witchking.gif"><div class="card-body"><h6 class="card-title">Witchking of Angmar</h6><p class="card-text">180</p></div></button>',
 };
+
+var defeatedEnemies = [];
 
 
 
@@ -119,6 +121,8 @@ function combat(){
     var aTK = $("#yourdamage").text();
     var cTR = $("#enemydamage").text();
 
+    var yH = parseInt(playerH);
+    var eH = parseInt(enemyH);
     var atkVAL = parseInt(aTK);
     var ctrVAL = parseInt(cTR);
 
@@ -159,30 +163,53 @@ function combat(){
         enemy = witchking; 
     }
 
-    function damage(p, e){
+    if (enemyH < 0){
+        alert("Enemy defeated!");
+        defeatedEnemies.push(enemy);
+        $("#stats").hide();
+        $("#attackrow").hide();
+        $("#roster1").show();
+        $("#roster2").show();
+        $("#enemypic").replaceWith("<img></img>");
 
-        var levelUp = p + player.attack;
+    }
+
+    if(defeatedEnemies.length == 3){
+        alert("All enemies defeated. You've Won!");
+        confirm("Hit 'OK' to restart!");
+        location.reload();
+    }
+
+    function damage(){
+
+        var levelUp = atkVAL + player.attack;
         var newPlayerHealth;
         var newEnemyHealth;
 
-        if(p === player.attack){    
-            newEnemyHealth = enemy.health - p;
-            newPlayerHealth = player.health - e;
+        if(atkVAL === player.attack){    
+            newEnemyHealth = eH - atkVAL;
+            newPlayerHealth = yH - ctrVAL;
+
+            $("#yourhealth").text(newPlayerHealth);
+            $("#enemyhealth").text(newEnemyHealth);
+            $("#yourdamage").text(levelUp);
         }
-        else if(p > player.attack){
-            newEnemyHealth = enemy.health - levelUp;
-            newPlayerHealth = player.health - e;
+        else if(atkVAL > player.attack){
+            newEnemyHealth = eH - levelUp;
+            newPlayerHealth = yH - ctrVAL;
+
+            $("#yourhealth").text(newPlayerHealth);
+            $("#enemyhealth").text(newEnemyHealth);
+            $("#yourdamage").text(levelUp);
         }
 
 
-        $("#yourhealth").text(newPlayerHealth);
-        $("#enemyhealth").text(newEnemyHealth);
-        $("#yourdamage").text(levelUp);
+       
 
 
 
     }
-    damage(atkVAL, ctrVAL);
+    damage();
 
 
 
