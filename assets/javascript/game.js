@@ -6,7 +6,7 @@ var aragorn = {
     counter: 20,
     gifPic: '<img class="card-img-top img-fluid" src="./assets/images/aragorn.gif">',
 
-    charCard: '<button class="card" id="character1"><img class="card-img-top img-fluid" src="./assets/images/aragorn.gif"><div class="card-body"><h5 class="card-title">Aragorn</h5><p class="card-text">150</p></div></button>',
+    charCard: '<button class="card" id="character1"><img class="card-img-top img-fluid roster" src="./assets/images/aragorn.gif"><div class="card-body"><h5 class="card-title">Aragorn</h5><p class="card-text">150</p></div></button>',
 };
 var eowyn = {
     name: "Eowyn",
@@ -15,7 +15,7 @@ var eowyn = {
     counter: 15,
     gifPic: '<img class="card-img-top img-fluid" src="./assets/images/eowyn2.gif">',
 
-    charCard: '<button class="card" id="character2"><img class="card-img-top img-fluid" src="./assets/images/eowyn2.gif"><div class="card-body"><h5 class="card-title">Eowyn</h5><p class="card-text">120</p></div></button>',
+    charCard: '<button class="card" id="character2"><img class="card-img-top img-fluid roster" src="./assets/images/eowyn2.gif"><div class="card-body"><h5 class="card-title">Eowyn</h5><p class="card-text">120</p></div></button>',
 };
 var goblin = {
     name: "Moria Goblin",
@@ -24,7 +24,7 @@ var goblin = {
     counter: 5,
     gifPic: '<img class="card-img-top img-fluid" src="./assets/images/MoriaGoblin.gif">',
 
-    charCard: '<button class="card" id="character3"><img class="card-img-top img-fluid" src="./assets/images/MoriaGoblin.gif"><div class="card-body"><h5 class="card-title">Moria Goblin</h5><p class="card-text">100</p></div></button>',
+    charCard: '<button class="card" id="character3"><img class="card-img-top img-fluid roster" src="./assets/images/MoriaGoblin.gif"><div class="card-body"><h5 class="card-title">Moria Goblin</h5><p class="card-text">100</p></div></button>',
 };
 var witchking = {
     name: "Witchking of Angmar",
@@ -33,7 +33,7 @@ var witchking = {
     counter: 25,
     gifPic: '<img class="card-img-top img-fluid" src="./assets/images/witchking.gif">', 
     
-    charCard: '<button class="card" id="character4"><img class="card-img-top img-fluid" src="./assets/images/witchking.gif"><div class="card-body"><h6 class="card-title">Witchking of Angmar</h6><p class="card-text">180</p></div></button>',
+    charCard: '<button class="card" id="character4"><img class="card-img-top img-fluid roster" src="./assets/images/witchking.gif"><div class="card-body"><h6 class="card-title">Witchking of Angmar</h6><p class="card-text">180</p></div></button>',
 };
 
 var defeatedEnemies = [];
@@ -170,7 +170,7 @@ function combat(){
         $("#attackrow").hide();
         $("#roster1").show();
         $("#roster2").show();
-        $("#enemypic").replaceWith("<img></img>");
+        $("#enemypic").remove();
 
     }
 
@@ -182,6 +182,8 @@ function combat(){
 
     function damage(){
 
+        
+
         var levelUp = atkVAL + player.attack;
         var newPlayerHealth;
         var newEnemyHealth;
@@ -190,17 +192,32 @@ function combat(){
             newEnemyHealth = eH - atkVAL;
             newPlayerHealth = yH - ctrVAL;
 
+            var attackMessage = "You attacked " + player.name + " for " + atkVAL + " damage.";
+            var counterAttackMessage = enemy.name + " attacked you back for " + ctrVAL + " damage.";
+
             $("#yourhealth").text(newPlayerHealth);
             $("#enemyhealth").text(newEnemyHealth);
             $("#yourdamage").text(levelUp);
+            $("#battlefeed1").text(attackMessage);
+            $("#battlefeed2").text(counterAttackMessage);
+
+
+
+
+
         }
         else if(atkVAL > player.attack){
             newEnemyHealth = eH - levelUp;
             newPlayerHealth = yH - ctrVAL;
 
+            var attackMessage = "You attacked " + enemy.name + " for " + atkVAL + " damage.";
+            var counterAttackMessage = enemy.name + " attacked you back for " + ctrVAL + " damage.";
+
             $("#yourhealth").text(newPlayerHealth);
             $("#enemyhealth").text(newEnemyHealth);
             $("#yourdamage").text(levelUp);
+            $("#battlefeed1").text(attackMessage);
+            $("#battlefeed2").text(counterAttackMessage);
         }
 
 

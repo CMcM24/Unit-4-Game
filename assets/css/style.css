@@ -1,0 +1,19 @@
+h1 {
+    font-size: 400%;
+};
+
+h2{
+    font-size: 300%;
+
+};
+
+.roster{
+    background-image: image("./assets/images/granite.jpg");
+    background-color: slategrey;
+    border: solid;
+    color: white;
+}
+
+.scene{
+    background-image: image()
+}
