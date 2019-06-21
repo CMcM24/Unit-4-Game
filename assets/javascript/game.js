@@ -10,8 +10,8 @@ var aragorn = {
 };
 var eowyn = {
     name: "Eowyn",
-    health: 80,
-    attack: 6,
+    health: 75,
+    attack: 8,
     counter: 12,
     gifPic: '<img class="card-img-top img-fluid" src="./assets/images/eowyn2.gif">',
 
@@ -19,7 +19,7 @@ var eowyn = {
 };
 var goblin = {
     name: "Moria Goblin",
-    health: 60,
+    health: 40,
     attack: 4,
     counter: 8,
     gifPic: '<img class="card-img-top img-fluid" src="./assets/images/MoriaGoblin.gif">',
@@ -94,6 +94,7 @@ function combatantChoice(fighter){
 function setEnemyCombatStats(enemy){
     $("#enemypic").replaceWith(enemy.gifPic);
     $("#enemyhealth").text(enemy.health);
+    $("#enemydamage").text(enemy.counter);
     $("#enemyname").text(enemy.name + "'s Health");
     $("#stats").show();
     $("#attackrow").show();
@@ -104,6 +105,7 @@ function setEnemyCombatStats(enemy){
 function setYourCombatStats(you){
     $("#yourpic").replaceWith(you.gifPic);
     $("#yourhealth").text(you.health);
+    $("#yourdamage").text(you.attack);
     $("#yourname").text(you.name + "'s Health");
 }
 
@@ -112,10 +114,78 @@ function setYourCombatStats(you){
 
 function combat(){
 
-    var player = $("#yourhealth").text();
-    var enemy = $("#enemyhealth").text();
+    var playerH = $("#yourhealth").text();
+    var enemyH = $("#enemyhealth").text();
+    var aTK = $("#yourdamage").text();
+    var cTR = $("#enemydamage").text();
 
-    
+    var atkVAL = parseInt(aTK);
+    var ctrVAL = parseInt(cTR);
+
+    var playerDMG;
+    var enemyDMG;
+
+    if(playerH == aragorn.health){
+        playerDMG = aragorn.attack;
+        player = aragorn; 
+    }
+    else if(playerH == eowyn.health){
+        playerDMG == eowyn.attack;
+        player = eowyn;
+    }
+    else if(playerH == goblin.health){
+        playerDMG == goblin.attack;
+        player = goblin;
+    }
+    else if(playerH == witchking.health){
+        playerDMG == witchking.attack;
+        player = witchking;
+    }
+
+    if(enemyH == aragorn.health){
+        enemyDMG = aragorn.counter;
+        enemy = aragorn; 
+    }
+    else if(enemyH == eowyn.health){
+        enemyDMG == eowyn.counter;
+        enemy = eowyn; 
+    }
+    else if(enemyH == goblin.health){
+        enemyDMG == goblin.counter;
+        enemy = goblin; 
+    }
+    else if(enemyH == witchking.health){
+        enemyDMG == witchking.counter;
+        enemy = witchking; 
+    }
+
+    function damage(p, e){
+
+        var levelUp = p + player.attack;
+        var newPlayerHealth;
+        var newEnemyHealth;
+
+        if(p === player.attack){    
+            newEnemyHealth = enemy.health - p;
+            newPlayerHealth = player.health - e;
+        }
+        else if(p > player.attack){
+            newEnemyHealth = enemy.health - levelUp;
+            newPlayerHealth = player.health - e;
+        }
+
+
+        $("#yourhealth").text(newPlayerHealth);
+        $("#enemyhealth").text(newEnemyHealth);
+        $("#yourdamage").text(levelUp);
+
+
+
+    }
+    damage(atkVAL, ctrVAL);
+
+
+
 
 };
 
@@ -230,6 +300,10 @@ $("#enemy3").on('click', function(){
     }
     
 });  
+
+$("#atkbtn").on('click', function(){
+    combat();
+});
   
     // else if($("#character td:last-child").attr('id')){
     //     playerChoice(eowyn);
